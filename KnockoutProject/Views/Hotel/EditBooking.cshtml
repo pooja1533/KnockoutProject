@@ -1,0 +1,225 @@
+﻿@model ViewModels.HotelViewModel
+@{
+    ViewBag.Title = "Delete";
+}
+<html>
+<head>
+    <title>
+        Index page
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+
+    .global-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+    }
+
+    table {
+        padding-top: 10px;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+
+    .card-title {
+        font-weight: 300;
+    }
+
+    .btn {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .login-form {
+        width: 330px;
+        margin: 20px;
+    }
+
+    .sign-up {
+        text-align: center;
+        padding: 20px 0 0;
+    }
+
+    .alert {
+        margin-bottom: -30px;
+        font-size: 13px;
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div class="pt-3">
+        <div class="global-container">
+            <div class="card login-form">
+                <div class="card-body">
+                    <div class="sign-up">
+                        <a data-bind="attr: { 'href': '@Url.Action("BookHotel", "Hotel")/'}" class="btn-link">Back to list</a>
+                    </div>
+                    <h3 class="card-title text-center">Edit Hotel Booking </h3>
+                    @using (Html.BeginForm())
+                    {
+                        <div class="card-text">
+                            <form>
+                                <div class="form-group">
+                                    <label for="country">Hotel </label>
+                                    <select data-bind="options: hotelCollection, optionsCaption: 'Choose hotel...',
+                    optionsValue: function (item) { return item.id; },
+                    optionsText: function (item) { return item.name; }, value: HotelId,
+                    valueUpdate: 'change'" id="Hotel" name="Hotel"></select>
+                                </div>
+                                <div class="form-group" id="date">
+                                    <label>From Date</label>
+                                    <input type="text" id="StartDate" data-bind="value: StartDate()" />
+                                    <label>To Date</label>
+                                    <input type="text" id="EndDate" data-bind="value: EndDate()" />
+                                </div>
+                                <input type="button" class="btn btn-primary btn-block" data-bind="click:editHotelBooking" value="Submit" />
+                            </form>
+                        </div>
+                    }
+                    <script type="text/javascript">
+                        var selectedBooking = '@Html.Raw(ViewBag.selectedBooking)';
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    var parsedselectedBooking = $.parseJSON(selectedBooking);
+    ko.bindingHandlers.datePicker = {
+        init: function (element, valueAccessor, allBindingsAccessor) {
+            var options = { format: 'dd-mm-yyyy', weekStart: 1, autoclose: true };
+            $(element).datepicker(options);
+            $(element).datepicker().on('changeDate', function (e) { valueAccessor()(e.date); });
+        },
+        update: function (element, valueAccessor, allBindingsAccessor) {
+            var date = ko.unwrap(valueAccessor());
+            $(element).datepicker('setDate', date);
+        }
+    };
+    var FromDate = new Date();
+    var ToDate = new Date();
+
+    var d = new Date();
+    d.setDate(d.getDate());
+    //default range
+    var defRange = 30;
+    // total range 1yr +/-
+    var e = new Date();
+    var xDate = 365;
+    e.setDate(d.getDate() - xDate);
+    $('#StartDate').datepicker({
+        minDate: d,
+        beforeShow: function () {
+            $('.ui-datepicker').css('font-size', 10);
+        },
+        onSelect: function (date) {
+            //var dp2 = $('#EndDate');
+            var startDate = $(this).datepicker('getDate');
+            var minDate = new Date();
+            startDate.setDate(startDate.getDate() + xDate);
+            $(this).change()
+            //dp2.datepicker('setDate', -defRange);
+            //dp2.change();
+            $(this).datepicker('option', 'minDate', minDate);
+            modelEdit.startDate = date;
+        }
+    });
+    $('#EndDate').datepicker({
+        minDate: d,
+        beforeShow: function () {
+            $('.ui-datepicker').css('font-size', 10);
+        },
+        onSelect: function (date) {
+            var dp2 = $('#EndDate');
+            var endDate = $(this).datepicker('getDate');
+            var minDate = new Date();
+            endDate.setDate(endDate.getDate() + xDate);
+            $(this).change()
+            $(this).datepicker('option', 'minDate', minDate);
+            modelEdit.endDate = date;
+        }
+    });
+    $('#StartDate').focus(function () {
+        $('#StartDate').datepicker('show');
+    });
+
+    $('#EndDate').focus(function () {
+        $('#EndDate').datepicker('show');
+    });
+
+    $(function () {
+        ko.applyBindings(modelEdit);
+    });
+    jQuery.browser = {
+        msie: false,
+        version: 0
+    };
+    var modelEdit = {
+        hotelCollection: ko.observableArray(),
+        HotelId: ko.observable(parsedselectedBooking.hotelId),
+        StartDate: ko.observable(parsedselectedBooking.fromDate),
+        EndDate: ko.observable(parsedselectedBooking.toDate),
+        Id: ko.observable(parsedselectedBooking.id),
+        editHotelBooking: function () {
+            var hotelBookingViewModel = {
+                EndDate: modelEdit.endDate,
+                StartDate: modelEdit.startDate,
+                HotelId: modelEdit.HotelId(),
+                Id: modelEdit.Id(),
+            };
+            //alert(hotelBookingViewModel);
+            try {
+                $.ajax({
+                    url: '/Hotel/EditHotelBooking',
+                    type: 'POST',
+                    data: hotelBookingViewModel,
+                    dataType: 'json',
+                    //contentType: 'application/json',
+                    success: function (data) {
+                        if (data.isError == false)
+                            window.location.href = data.redirectUrl;
+                        else {
+                            alert("Something went wrong when you delete hotel");
+                        }
+                    },
+                    error: function () {
+                        alert("Something went wrong when you delete hotel");
+                    }
+                });
+            }
+            catch (e) {
+                window.location.href ="/Hotel/ListofHotels/"
+            }
+        }
+    };
+    $(parsedselectedBooking.hotels).each(function (index, element) {
+        modelEdit.hotelCollection.push(element);
+    });
+    function successCallback(data) {
+        window.location.href = '/Hotel/Index/';
+    }
+
+    function errorCallback(err) {
+        window.location.href = '/Home/Index/';
+    }
+   </script>

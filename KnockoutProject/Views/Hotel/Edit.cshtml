@@ -1,0 +1,277 @@
+﻿@model ViewModels.HotelViewModel
+@{
+    ViewBag.Title = "Delete";
+}
+<html>
+<head>
+    <title>
+        Index page
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+
+    .global-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+    }
+
+    table {
+        padding-top: 10px;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+
+    .card-title {
+        font-weight: 300;
+    }
+
+    .btn {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .login-form {
+       /* width: 330px;*/
+        margin: 20px;
+    }
+
+    .sign-up {
+        text-align: center;
+        padding: 20px 0 0;
+    }
+
+    .alert {
+        margin-bottom: -30px;
+        font-size: 13px;
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div class="pt-3">
+        <div class="global-container">
+            <div class="card login-form">
+                <div class="card-body">
+                    <div class="sign-up">
+                        <a data-bind="attr: { 'href': '@Url.Action("Index", "Hotel")/'}" class="btn-link">Back to list</a>
+                    </div>
+                    <h3 class="card-title text-center">Edit Hotel </h3>
+                    @using (Html.BeginForm())
+                    {
+                        <div class="card-text">
+                            <form>
+                                <div class="form-group">
+                                    <label for="name">Name </label>
+                                    <input type="text" class="form-control form-control-sm" id="name" aria-describedby="name" data-bind="value:name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address1">Address1 </label>
+                                    <input type="text" class="form-control form-control-sm" id="address1" data-bind="value:address1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address2">Address2 </label>
+                                    <input type="text" class="form-control form-control-sm" id="address2" data-bind="value:address2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="address3">Address3 </label>
+                                    <input type="text" class="form-control form-control-sm" id="address3" data-bind="value:address3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email </label>
+                                    <input type="email" class="form-control form-control-sm" id="email" data-bind="value:email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="website">website </label>
+                                    <input type="text" class="form-control form-control-sm" id="website" data-bind="value:website">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pincode">pincode </label>
+                                    <input type="text" class="form-control form-control-sm" id="pincode" data-bind="value:pincode">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">country </label>
+                                    <select data-bind="options: countryCollection, optionsCaption: 'Choose country...',
+                    optionsValue: function (item) { return item.id; },
+                    optionsText: function (item) { return item.name; }, value: CountryId,
+                    valueUpdate: 'change'" id="Country" name="Country"></select>
+                                </div>
+                                <div>
+                                    <label for="state"> Select State</label>
+                                    <select data-bind="options: stateCollection, optionsCaption: 'Choose state...',
+        optionsValue: function (item) { return item.id; },
+        optionsText: function (item) { return item.name; },  value: StateId,
+        valueUpdate: 'change'" id="State" name="State"></select>
+                                    <br />
+                                </div>
+                                <div class="form-group">
+                                    <label for="star">star</label>
+                                    <select data-bind="options: starCollection, optionsCaption: 'Choose star...',
+                    optionsValue: function (item) { return item.id; },
+                    optionsText: function (item) { return item.description; }, value: StarId,
+                    valueUpdate: 'change'" id="Star" name="Star"></select>
+                                </div>
+                                <div>
+                                    <label for="city">Select City</label>
+                                    <select data-bind="options: cityCollection, optionsCaption: 'Choose city...',
+        optionsValue: function (item) { return item.id; },
+        optionsText: function (item) { return item.name; }, value: CityId,
+        valueUpdate: 'change'" id="City" name="City"></select>
+                                </div>
+                                <input type="button" class="btn btn-primary btn-block" data-bind="click:editHotel" value="Submit" />
+                            </form>
+                        </div>
+                    }
+                    <script type="text/javascript">
+                    var SelectedHotel = '@Html.Raw(ViewBag.SelectedHotel)';
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var parsedSelectedHotel = $.parseJSON(SelectedHotel);
+    $(function () {
+        ko.applyBindings(modelEdit);
+    });
+    var modelEdit = {
+        starCollection: ko.observableArray(),
+        countryCollection: ko.observableArray(),
+        stateCollection: ko.observableArray(),
+        cityCollection: ko.observableArray(),
+        name: ko.observable(parsedSelectedHotel.name),
+        address1: ko.observable(parsedSelectedHotel.address1),
+        address2: ko.observable(parsedSelectedHotel.address2),
+        address3: ko.observable(parsedSelectedHotel.address3),
+        email: ko.observable(parsedSelectedHotel.email),
+        website: ko.observable(parsedSelectedHotel.website),
+        pincode: ko.observable(parsedSelectedHotel.pincode),
+        StarId: ko.observable(parsedSelectedHotel.star),
+        CountryId: ko.observable(parsedSelectedHotel.countryId),
+        StateId: ko.observable(parsedSelectedHotel.stateId),
+        CityId: ko.observable(parsedSelectedHotel.cityId),
+        Id: ko.observable(parsedSelectedHotel.id),
+        editHotel: function () {
+            var hotelViewModel = {
+                name:this.name(),
+                address1:this.address1(),
+                address2:this.address2(),
+                address3:this.address3(),
+                email:this.email(),
+                website:this.website(),
+                pincode:this.pincode(),
+                StarId: this.StarId(),
+                CountryId: this.CountryId(),
+                StateId: this.StateId(),
+                CityId: this.CityId(),
+                Id: this.Id(),
+            };
+            //alert(hotelViewModel);
+            try {
+                $.ajax({
+                    url: '/Hotel/Edit',
+                    type: 'POST',
+                    data: hotelViewModel,
+                    dataType: 'json',
+                    //contentType: 'application/json',
+                    success: function (data) {
+                        if (data.isError == false)
+                            window.location.href = data.redirectUrl;
+                        else {
+                            alert("Something went wrong when you delete hotel");
+                        }
+                    },
+                    error: function () {
+                        alert("Something went wrong when you delete hotel");
+                    }
+                });
+            }
+            catch (e) {
+                window.location.href ="/Hotel/ListofHotels/"
+            }
+        }
+    };
+    $(parsedSelectedHotel.country).each(function (index, element) {
+        modelEdit.countryCollection.push(element);
+    });
+    $(parsedSelectedHotel.states).each(function (index, element) {
+        modelEdit.stateCollection.push(element);
+    });
+    $(parsedSelectedHotel.city).each(function (index, element) {
+        modelEdit.cityCollection.push(element);
+    });
+    $(parsedSelectedHotel.stars).each(function (index, element) {
+        modelEdit.starCollection.push(element);
+    });
+    function successCallback(data) {
+        window.location.href = '/Hotel/Index/';
+    }
+
+    function errorCallback(err) {
+        window.location.href = '/Home/Index/';
+    }
+    $("#Country").change(function () {
+        var countryId = $("#Country").val();
+        countryId = parseInt(countryId);
+        if (countryId > 0) {
+            $.ajax({
+                type: "GET",
+                url: "/Hotel/GetStates?countryId=" + countryId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    modelEdit.stateCollection.removeAll();
+                    if (response != "") {
+                        $(response).each(function (index, element) {
+                            modelEdit.stateCollection.push(element);
+                        });
+                        //ko.cleanNode(hotelCreate);
+                        //    ko.applyBindings(hotelCreate);
+                    }
+                }
+            });
+        }
+
+    });
+    $("#State").change(function () {
+        var stateId = $("#State").val();
+        stateId = parseInt(stateId);
+        if (stateId > 0) {
+            $.ajax({
+                type: "GET",
+                url: "/Hotel/GetCities?stateId=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    modelEdit.cityCollection.removeAll();
+                    if (response != "") {
+                        $(response).each(function (index, element) {
+                            modelEdit.cityCollection.push(element);
+                        });
+                        //var element = $('#hotelform')[0];
+                        //ko.cleanNode(element);
+                        //  ko.cleanNode(document.getElementById("#hotelform"));
+                        //ko.cleanNode(hotelCreate);
+                        //ko.applyBindings(hotelCreate);
+                    }
+                }
+            });
+        }
+
+    });
+</script>

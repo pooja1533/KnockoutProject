@@ -1,0 +1,106 @@
+﻿@model ViewModels.HotelBookingViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Add Tour
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="~/js/SightSeen.js"></script>
+
+</head>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+
+    .global-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+    }
+
+    form {
+        padding-top: 10px;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+
+    .card-title {
+        font-weight: 300;
+    }
+
+    .btn {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .login-form {
+        /*        width: 330px;
+    */ margin: 20px;
+    }
+
+    .sign-up {
+        text-align: center;
+        padding: 20px 0 0;
+    }
+
+    .alert {
+        margin-bottom: -30px;
+        font-size: 13px;
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div class="pt-3">
+        <div class="global-container">
+            <div class="card login-form">
+                <div class="card-body">
+                    <a data-bind="attr: { 'href': '@Url.Action("ListOfSightSeen", "Tour")/'}" class="btn-link">List of Sight Seen</a>
+                    <h3 class="card-title text-center"> Add Tour</h3>
+                    <div class="card-text">
+                        <form id="hotelform">
+                            <div class="form-group">
+                                <label for="name">Enter SightSeen Name</label>
+                                <input type="text" class="form-control form-control-sm" id="SightseenName" aria-describedby="name" data-bind="value:SightseenName">
+                            </div>
+                            <div class="form-group">
+                                <label for="description" style="display:block;">Enter SightSeen Description</label>
+                                <textarea rows="2" cols="50" data-bind="textInput:Description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="Country"> Select City</label>
+                                <input type="text" class="autosuggest" id="txtAutoComplete" aria-describedby="name" data-bind="value:Name">
+                                <input type="hidden" id="CityId" data-bind="value:CityId" />
+
+                            </div>
+
+
+                            <div class="form-group" id="btnsubmit">
+                                <input type="button" class="btn btn-primary btn-block" data-bind="click:AddSightSeen" value="Add Tour" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>

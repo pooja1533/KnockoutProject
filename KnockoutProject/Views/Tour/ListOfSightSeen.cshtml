@@ -1,0 +1,149 @@
+﻿<html>
+<head>
+    <title>
+        List of Sight Seen
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+
+    .global-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+    }
+
+    table {
+        padding-top: 10px;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+
+    .card-title {
+        font-weight: 300;
+    }
+
+    .btn {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .login-form {
+        width: 330px;
+        margin: 20px;
+    }
+
+    .sign-up {
+        text-align: center;
+        padding: 20px 0 0;
+    }
+
+    .alert {
+        margin-bottom: -30px;
+        font-size: 13px;
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <div class="pt-3">
+        <div class="global-container">
+            <div class="card login-form">
+                <div class="card-body">
+                    <h3 class="card-title text-center"> Sight Seen </h3>
+                    <a data-bind="attr: { 'href': '@Url.Action("AddSightSeen", "Tour")/'}" class="btn-link">Add Sight Seen</a>
+                    <div class="card-text">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>City</th>
+                                <th>Action</th>
+                            </tr>
+                            <tbody data-bind="foreach: SightSeen">
+                                <tr>
+                                    <td data-bind="text: sightseenName"></td>
+                                    <td data-bind="text: description"></td>
+                                    <td data-bind="text: name"></td>
+                                    <td>
+                                        <a data-bind="attr: { 'href': '@Url.Action("EditSightSeen", "Tour")/' + id }" class="btn-link">Edit</a>
+                                        @*<a data-bind="attr: { 'href': '@Url.Action("DeleteSightSeen", "Tour")/' + id }" class="btn-link">Delete</a>*@
+                                        <a data-bind="click:function(param1){DeleteSightSeen(id)},attr: { 'href':''}" class="btn-link">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    function DeleteSightSeen(id) {
+        if (confirm("Are you sure to want to Delete?") == true) {
+            $.ajax({
+                type: "POST",
+                url: "/Tour/DeleteSightSeen?id="+id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.isError == false) {
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        alert("Something went wrong when you delete sight seen");
+                    }
+                }
+            });
+        }
+        else
+            return false;
+    }
+
+    $(function () {
+        ko.applyBindings(modelView);
+       modelView.viewSightSeen();
+    });
+    var modelView = {
+        SightSeen: ko.observableArray([]),
+        viewSightSeen: function () {
+            var thisObj = this;
+            try {
+                $.ajax({
+                    url: '/Tour/GetListOfSightSeen',
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        thisObj.SightSeen(data); //Here we are assigning values to KO Observable array
+                    },
+                    error: function (err) {
+                        alert(err.status + " : " + err.statusText);
+                    }
+                });
+            } catch (e) {
+                window.location.href = '/Home/Read/';
+            }
+        }
+    };
+</script>

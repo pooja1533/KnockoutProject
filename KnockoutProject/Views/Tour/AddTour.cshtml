@@ -1,0 +1,390 @@
+﻿@model ViewModels.HotelBookingViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Add Tour
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+</head>
+<style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+        }
+
+        .global-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+
+        form {
+            padding-top: 10px;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        .card-title {
+            font-weight: 300;
+        }
+
+        .btn {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .login-form {
+            /*        width: 330px;
+    */ margin: 20px;
+        }
+
+        .sign-up {
+            text-align: center;
+            padding: 20px 0 0;
+        }
+
+        .alert {
+            margin-bottom: -30px;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+</style>
+<body>
+    <div class="pt-3">
+        <div class="global-container">
+            <div class="card login-form">
+                <div class="card-body">
+                    <h3 class="card-title text-center"> Add Tour</h3>
+                    <div class="card-text">
+                        <form id="hotelform">
+                            <div class="form-group">
+                                <label for="Country"> Select City</label>
+                                <input type="text" class="autosuggest" id="txtAutoComplete" aria-describedby="name" data-bind="value:Name">
+                                <input type="hidden" id="CityId" data-bind="value:CityId" />
+
+                            </div>
+                            <div class="form-group" id="date">
+                                <label>From Date</label>
+                                <input type="text" id="StartDate" data-bind="value: StartDate()" />
+                                <label>To Date</label>
+                                <input type="text" id="EndDate" data-bind="value: EndDate()" />
+                            </div>
+                            <div>
+                                <label for="hotel">Select Hotel</label>
+                                <select data-bind="options: hotelCollection, optionsCaption: 'Choose hotel...',
+        optionsValue: function (item) { return item.id; },
+        optionsText: function (item) { return item.name; }, value: HotelId,
+        valueUpdate: 'change'" id="Hotel" name="Hotel"></select>
+                            </div>
+
+                            <div>
+                                <label for="hotel">Select Sight Seen</label>
+                                <select data-bind="options: sightSeenCollection, optionsCaption: 'Choose Sight Seen...',
+        optionsValue: function (item) { return item.id; },
+        optionsText: function (item) { return item.sightseenName; }, value: SightSeenId,
+        valueUpdate: 'change'" id="SightSeen" name="SightSeen"></select>
+                            </div>
+                            <div class="form-group" id="btnsubmit">
+                                <input type="button" class="btn btn-primary btn-block" data-bind="click:BookTour" value="Add Tour" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    function SearchText() {
+
+        addTour = {
+            Name: ko.observable(""),
+            StartDate: ko.observable(),
+            EndDate: ko.observable(),
+            CityId: ko.observable(),
+            hotelCollection: ko.observableArray(),
+            HotelId: ko.observable(),
+            sightSeenCollection: ko.observableArray(),
+            SightSeenId: ko.observable(),
+            BookTour: function () {
+                StartDate: this.startDate;
+                EndDate: this.endDate;
+                Name: this.name;
+                CityId: this.CityId;
+                addTour.StartDate = Date.parse(this.startDate);
+                addTour.EndDate = Date.parse(this.endDate);
+
+                var HotelBookingViewModel = {
+                    StartDate: BookTour.startDate,
+                    EndDate: BookTour.endDate,
+                    Name: BookTour.Name,
+                    CityId: BookTour.CityId,
+                }
+                //$.ajax({
+                //    url: '/Hotel/addTour',
+                //    type: 'post',
+                //    dataType: 'json',
+                //    data: HotelBookingViewModel, //Here the data wil be converted to JSON
+                //    //contentType: 'application/json',
+                //    success: function (data) {
+                //        debugger;
+                //        /*addTour.bookedHotels(data);*/
+                //        alert("Booked hotel successfully");
+                //        window.location.href = window.location.href;
+                //    },
+                //    error: function () {
+                //        debugger;
+                //        alert("Something went wrong");
+                //    }
+                //});
+            }
+        };
+
+
+        $(".autosuggest").autocomplete({
+            source: function (request, response) {
+                var value = document.getElementById('txtAutoComplete').value;
+                $.ajax({
+                    type: "POST",
+                    url: "GetCityName",
+                    data: { prefix: value },
+                    datatype: "json",
+                    success: function (data) {
+                        if (data.length == 0) {
+                            alert("No Result found");
+                            var element = document.getElementById("txtAutoComplete");
+                            element.classList.remove("ui-autocomplete-loading");
+                            return false;
+                        }
+                        else {
+                            response($.map(data, function (item) {
+                                return { label: item.name, value: item.name, id: item.id };
+                            }))
+                        }
+                        
+                    },
+                    error: function (result) {
+                        alert("error");
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#CityId").val(i.item.id);
+                addTour.CityId = $("#CityId").val();
+                var TourBookingViewModel = {
+                    CityId: parseInt(addTour.CityId),
+                    StartDate:addTour.startDate,
+                    EndDate: addTour.endDate,
+                };
+                if (addTour.CityId > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "GetBookedHotelForCity",
+                        data: TourBookingViewModel,
+                        datatype: "json",
+                        success: function (data) {
+                            addTour.hotelCollection.removeAll();
+                            if (data != "") {
+                                $(data).each(function (index, element) {
+                                    addTour.hotelCollection.push(element);
+                                });
+                            }
+                        },
+                        error: function (result) {
+                            alert("error");
+                        }
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "GetSightSeenForCity",
+                        data: TourBookingViewModel,
+                        datatype: "json",
+                        success: function (data) {
+                            addTour.sightSeenCollection.removeAll();
+                            if (data != "") {
+                                $(data).each(function (index, element) {
+                                    addTour.sightSeenCollection.push(element);
+                                });
+                            }
+                        },
+                        error: function (result) {
+                            alert("error");
+                        }
+                    });
+                }
+            },
+        });
+
+        ko.bindingHandlers.datePicker = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                var options = { format: 'dd-mm-yyyy', weekStart: 1, autoclose: true };
+                $(element).datepicker(options);
+                $(element).datepicker().on('changeDate', function (e) { valueAccessor()(e.date); });
+            },
+            update: function (element, valueAccessor, allBindingsAccessor) {
+                var date = ko.unwrap(valueAccessor());
+                $(element).datepicker('setDate', date);
+            }
+        };
+        var FromDate = new Date();
+        var ToDate = new Date();
+
+        var d = new Date();
+        d.setDate(d.getDate());
+        //default range
+        var defRange = 30;
+        // total range 1yr +/-
+        var e = new Date();
+        var xDate = 365;
+        e.setDate(d.getDate() - xDate);
+
+        $('#StartDate').datepicker({
+            minDate: d,
+            beforeShow: function () {
+                $('.ui-datepicker').css('font-size', 10);
+            },
+            onSelect: function (date) {
+
+                addTour.Name = $("#txtAutoComplete").val();
+                var dp2 = $('#EndDate');
+                var startDate = $(this).datepicker('getDate');
+                var minDate = new Date();
+                startDate.setDate(startDate.getDate() + xDate);
+                $(this).change()
+                //defaults to past 30 days
+                //dp2.datepicker('setDate', -defRange);
+                //dp2.change();
+                //minDate.setDate(minDate.getDate() - xDate);
+                //set max date for start and end range
+                //dp2.datepicker('option', 'maxDate', startDate);
+                //dp2.datepicker('option', 'minDate', minDate);
+                $(this).datepicker('option', 'minDate', minDate);
+                addTour.startDate = date;
+                var TourBookingViewModel = {
+                    CityId: parseInt(addTour.CityId),
+                    StartDate: addTour.startDate,
+                    EndDate: addTour.endDate,
+                };
+                if (addTour.CityId > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "GetBookedHotelForCity",
+                        data: TourBookingViewModel,
+                        datatype: "json",
+                        success: function (data) {
+                            addTour.hotelCollection.removeAll();
+                            if (data != "") {
+                                $(data).each(function (index, element) {
+                                    addTour.hotelCollection.push(element);
+                                });
+                            }
+                        },
+                        error: function (result) {
+                            alert("error");
+                        }
+                    });
+                }
+            }
+        });
+        $('#EndDate').datepicker({
+            //maxDate: d,
+            minDate: d,
+            beforeShow: function () {
+                $('.ui-datepicker').css('font-size', 10);
+            },
+            onSelect: function (date) {
+
+                addTour.Name = $("#txtAutoComplete").val();
+                var dp2 = $('#EndDate');
+                var endDate = $(this).datepicker('getDate');
+                var minDate = new Date();
+                endDate.setDate(endDate.getDate() + xDate);
+                $(this).change()
+                //defaults to past 30 days
+                //dp2.datepicker('setDate', -defRange);
+                //dp2.change();
+                //minDate.setDate(minDate.getDate() - xDate);
+                //set max date for start and end range
+                //dp2.datepicker('option', 'maxDate', endDate);
+                //dp2.datepicker('option', 'minDate', minDate);
+                $(this).datepicker('option', 'minDate', minDate);
+                addTour.endDate = date;
+                var TourBookingViewModel = {
+                    CityId: parseInt(addTour.CityId),
+                    StartDate: addTour.startDate,
+                    EndDate: addTour.endDate,
+                };
+                if (addTour.CityId > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "GetBookedHotelForCity",
+                        data: TourBookingViewModel,
+                        datatype: "json",
+                        success: function (data) {
+                            addTour.hotelCollection.removeAll();
+                            if (data != "") {
+                                $(data).each(function (index, element) {
+                                    addTour.hotelCollection.push(element);
+                                });
+                            }
+                        },
+                        error: function (result) {
+                            alert("error");
+                        }
+                    });
+                }
+            }
+        });
+
+        $('#StartDate').focus(function () {
+            $('#StartDate').datepicker('show');
+        });
+
+        $('#EndDate').focus(function () {
+            $('#EndDate').datepicker('show');
+        });
+        ko.applyBindings(addTour);
+        jQuery.browser = {
+            msie: false,
+            version: 0
+        };
+    }
+    $(document).ready(function () {
+        SearchText();
+        //$.ajax({
+        //    type: "GET",
+        //    url: "/Hotel/GetBookedHotels",
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (response) {
+        //        debugger;
+        //        if (response != "") {
+        //            $(response).each(function (index, element) {
+        //                addTour.bookedHotels.push(element);
+        //            });
+        //            //    ko.applyBindings(hotelCreate);
+        //        }
+        //    }
+        //});
+    })
+</script>

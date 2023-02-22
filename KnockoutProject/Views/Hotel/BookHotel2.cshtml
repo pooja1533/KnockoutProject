@@ -1,0 +1,310 @@
+﻿@model ViewModels.HotelViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Add Hotel
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+</head>
+<style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+
+    .global-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+    }
+
+    form {
+        padding-top: 10px;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+
+    .card-title {
+        font-weight: 300;
+    }
+
+    .btn {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .login-form {
+        width: 330px;
+        margin: 20px;
+    }
+
+    .sign-up {
+        text-align: center;
+        padding: 20px 0 0;
+    }
+
+    .alert {
+        margin-bottom: -30px;
+        font-size: 13px;
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div class="pt-3">
+        <div class="global-container">
+            <div class="card login-form">
+                <div class="card-body">
+                    <h3 class="card-title text-center"> Add Hotel </h3>
+                    <div class="card-text">
+                        <form id="hotelform">
+                            <div class="form-group">
+                                <input type="text" class="autosuggest" id="txtAutoComplete" data-bind="value:name">
+                                <input type="hidden" id="HotelId" />
+
+                            </div>
+                            <div class="form-group" id="dateSelectionForBooking" style="display:none;">
+                                @*<input type="text" data-bind="datePicker: startDate" />
+                                <input type="text" data-bind="datePicker: endDate" />*@
+                                <input type="text" id="StartDate" data-bind="value: myStartDate()" />to
+                                <input type="text" id="EndDate" data-bind="value: myEndDate()" />
+
+                                <p>
+                                    start day<span data-bind="text: myStartDate" />
+                                </p>
+                                <p>
+                                    end day<span data-bind="text: myEndDate" />
+                                </p>
+                            </div>
+                            <div class="form-group" id="btnsubmit" style="display:none;">
+                                @*<input type="button" class="btn btn-primary btn-block" data-bind="click:bookHotel" value="Add Booking" />*@
+                                <input type="button" class="btn btn-primary btn-block" onclick="BookHotel()" value="Add Booking" />
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        SearchText();
+    });
+    function BookHotel() {
+        debugger;
+        var bookViewModel = {
+            name: document.getElementById("txtAutoComplete").value,
+            myStartDate: document.getElementById("StartDate").value,
+            myEndDate: document.getElementById("EndDate").value,
+            
+        }
+        $.ajax({
+            url: '/Hotel/BookHotel',
+            type: 'post',
+            dataType: 'json',
+            data: ko.toJSON(bookViewModel), //Here the data wil be converted to JSON
+            contentType: 'application/json',
+            success: function (data) {
+                debugger;
+                if (data.isError == false)
+                    window.location.href = data.redirectUrl
+                        ;
+                else {
+                    alert("Something went wrong");
+                }
+            },
+            error: function () {
+                debugger;
+                alert("Something went wrong");
+            }
+        });
+    }
+    function SearchText() {
+        debugger;
+        $(".autosuggest").autocomplete({
+            source: function (request, response) {
+                debugger;
+                var value = document.getElementById('txtAutoComplete').value;
+                $.ajax({
+                    type: "POST",
+                    url: "GetHotelName",
+                    data: { Prefix: value },
+                    dataType: "json",
+                    success: function (data) {
+                        debugger;
+                        response($.map(data, function (item) {
+                            debugger;
+                            return { label: item.name, value: item.name, HotelId: item.id };
+                        }))
+                        //   ko.applyBindings(ViewModel);
+                    },
+                    error: function (result) {
+                        alert("Error");
+                    }
+                });
+            },
+            select: function (e, i) {
+                debugger;
+                $("#HotelId").val(i.item.HotelId);
+                var selectedHotelId = $("#HotelId").val();
+                if (selectedHotelId != '') {
+                    var div = document.getElementById("dateSelectionForBooking");
+                    div.style.display = "block";
+
+                    var submitBtn = document.getElementById("btnsubmit");
+                    submitBtn.style.display = "block";
+                }
+            },
+        });
+        debugger;
+        jQuery.browser = {
+            msie: false,
+            version: 0
+        };
+        ko.bindingHandlers.datePicker = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                var options = { format: 'dd-mm-yyyy', weekStart: 1, autoclose: true };
+                $(element).datepicker(options);
+                $(element).datepicker().on('changeDate', function (e) { valueAccessor()(e.date); });
+            },
+            update: function (element, valueAccessor, allBindingsAccessor) {
+                var date = ko.unwrap(valueAccessor());
+                $(element).datepicker('setDate', date);
+            }
+        };
+
+        debugger;
+        //bookHotel = {
+        //    name: ko.observable(),
+        //    startDate: ko.observable(new Date()),
+        //    endDate: ko.observable(new Date()),
+        //    bookHotel: function () {
+        //        debugger;
+        //        name: this.name();
+        //        startDate: bookHotel.startDate().toLocaleString();
+        //        endDate: this.endDate(new Date());
+        //        try {
+        //            $.ajax({
+        //                url: '/Hotel/BookHotel',
+        //                type: 'post',
+        //                dataType: 'json',
+        //                data: ko.toJSON(bookHotel), //Here the data wil be converted to JSON
+        //                contentType: 'application/json',
+        //                success: function (data) {
+        //                    debugger;
+        //                    if (data.isError == false)
+        //                        window.location.href = data.redirectUrl
+        //                            ;
+        //                    else {
+        //                        alert("Something went wrong");
+        //                    }
+        //                },
+        //                error: function () {
+        //                    debugger;
+        //                    alert("Something went wrong");
+        //                }
+        //            });
+        //        } catch (e) {
+        //            alert(e);
+        //        }
+        //    }
+        //}
+
+        var bookHotel = function(){
+            var self = this;
+            self.name = ko.observable();
+            self.myStartDate = ko.observable();
+            self.myEndDate = ko.observable();
+            self.HotelId = ko.observable();
+            //self.bookHotel = function () {
+            //    debugger;
+            //    alert("Book hotel called");
+            //    self.HotelId = self.HotelId();
+            //    self.myStartDate = self.myStartDate();
+            ////    self.myStartDate = document.getElementById("StartDate").value;
+            //}
+        }
+        //alert("Binding call" + bookHotel.name);
+        ko.applyBindings(new bookHotel());
+
+        var FromDate = new Date();
+        var ToDate = new Date();
+
+        var d = new Date();
+        d.setDate(d.getDate());
+        //default range
+        var defRange = 30;
+        // total range 1yr +/-
+        var e = new Date();
+        var xDate = 365;
+        e.setDate(d.getDate() - xDate);
+        $('#StartDate').datepicker({
+            maxDate: d,
+            beforeShow: function () {
+                $('.ui-datepicker').css('font-size', 10);
+            },
+            onSelect: function (date) {
+                debugger;
+                var dp2 = $('#EndDate');
+                var startDate = $(this).datepicker('getDate');
+                var minDate = $(this).datepicker('getDate');
+                startDate.setDate(startDate.getDate() + xDate);
+                $(this).change()
+                //defaults to past 30 days
+                dp2.datepicker('setDate', -defRange);
+                dp2.change();
+                minDate.setDate(minDate.getDate() - xDate);
+                //set max date for start and end range
+                dp2.datepicker('option', 'maxDate', startDate);
+                dp2.datepicker('option', 'minDate', minDate);
+                $(this).datepicker('option', 'minDate', minDate);
+
+            }
+        });
+
+        $('#EndDate').datepicker({
+            maxDate: d,
+            minDate: e,
+            beforeShow: function () {
+                $('.ui-datepicker').css('font-size', 10);
+            }
+        });
+
+        $('#StartDate').focus(function () {
+            $('#StartDate').datepicker('show');
+        });
+
+        $('#EndDate').focus(function () {
+            $('#EndDate').datepicker('show');
+        });
+    }
+</script>

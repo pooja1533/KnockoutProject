@@ -1,0 +1,266 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\KnockoutProject\\KnockoutProject.csproj": {}
+  },
+  "projects": {
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj",
+        "projectName": "DataModel",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\KnockoutProject\\KnockoutProject.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\KnockoutProject\\KnockoutProject.csproj",
+        "projectName": "KnockoutProject",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\KnockoutProject\\KnockoutProject.csproj",
+        "packagesPath": "C:\\Users\\Hardik\\.nuget\\packages\\",
+        "outputPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\KnockoutProject\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Hardik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Repository\\Repository.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Services\\Services.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Services\\Services.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ViewModels\\ViewModels.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ViewModels\\ViewModels.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.17, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "Nancy": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "System.Web.Mvc.Extensions": {
+              "target": "Package",
+              "version": "[1.1.1.2, )"
+            },
+            "jQuery.TextExt.AutoComplete": {
+              "target": "Package",
+              "version": "[1.3.1, )"
+            },
+            "knockoutjs": {
+              "target": "Package",
+              "version": "[3.5.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.22, 3.1.22]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj",
+        "projectName": "RepositoryInterface",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Repository\\Repository.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Repository\\Repository.csproj",
+        "projectName": "Repository",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Repository\\Repository.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj",
+        "projectName": "ServiceInterfaces",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Services\\Services.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Services\\Services.csproj",
+        "projectName": "Services",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Services\\Services.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\RepositoryInterface\\RepositoryInterface.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ServiceInterfaces\\ServiceInterfaces.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ViewModels\\ViewModels.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ViewModels\\ViewModels.csproj",
+        "projectName": "ViewModels",
+        "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\ViewModels\\ViewModels.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\Core\\Core.csproj"
+              },
+              "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj": {
+                "projectPath": "D:\\KnockputProject\\KnockoutProject\\KnockoutProject\\DataModel\\DataModel.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    }
+  }
+}
